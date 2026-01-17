@@ -1,0 +1,176 @@
+ZADATAK
+
+Izgradi kompletnu, funkcionalnu mobilnu aplikaciju pod nazivom „LinkMe“, koristeći:
+
+Flutter (Android-first)
+Firebase kao backend (Authentication + Firestore)
+
+Aplikacija mora biti odmah pokretljiva nakon Firebase konfiguracije.
+
+
+
+ OBAVEZNI OUTPUT
+
+U jednom odgovoru ispiši:
+
+1. Sav Flutter kod potreban za MVP
+
+    svi `.dart` fajlovi
+    bez `TODO` dijelova
+    bez pseudo-koda
+
+2. Tačnu listu dependencies (`pubspec.yaml`)
+
+3. Listu svih assets fajlova
+
+    slike / ikone
+    gdje se koriste u aplikaciji
+
+4. Jednostavnu strukturu projekta
+
+    ne koristiti previše foldera
+    fokus na čitljivost
+
+
+
+ KONCEPT APLIKACIJE
+
+LinkMe je društveno korisna mobilna aplikacija za mikrosolidarnost u realnom vremenu.
+
+Cilj:
+
+ povezivanje ljudi u istoj lokalnoj zajednici
+ pomoć u malim, svakodnevnim situacijama (npr. kupovina, čišćenje, asistencija, pozajmljivanje alata)
+ jačanje povjerenja i solidarnosti
+
+
+
+ KORISNIČKE ULOGE I REGISTRACIJA
+
+Prilikom registracije korisnik unosi:
+
+ JMBG
+
+   koristi se samo za pravilo jedna osoba = jedan nalog
+   hashovati prije čuvanja u bazi
+ Ime ili nadimak
+
+Korisnik bira ulogu:
+
+ Korisnik usluge (osoba kojoj treba pomoć)
+ Volonter (osoba koja pruža pomoć)
+
+Napomena:
+
+ korisnik može naknadno promijeniti ulogu u podešavanjima profila
+
+
+
+ LOGIKA EKRANA PO ULOZI
+
+ Ako je korisnik = osoba kojoj treba pomoć
+
+Home ekran omogućava:
+
+ kreiranje zahtjeva za pomoć
+ pregled preporučenih volontera
+  (na osnovu lokacije i tipa pomoći)
+ pregled statusa zahtjeva
+
+ Ako je korisnik = volonter
+
+Home ekran prikazuje:
+
+ listu ljudi kojima je potrebna pomoć
+ prioritetne zahtjeve prema fokusima volontera
+ pretragu i filtriranje po:
+
+   kategoriji pomoći
+   udaljenosti
+
+Volonter bira svoje fokuse / tipove pomoći pri registraciji ili u podešavanjima.
+
+
+
+ KLJUČNE FUNKCIONALNOSTI (MVP)
+
+ 1. Home / Help Radar
+
+ interaktivna mapa
+ različit UI u zavisnosti od uloge
+
+ 2. Zahtjev / Pomoć
+
+ forma sa:
+
+   tipom pomoći
+   opisom
+   automatskom lokacijom
+
+ 3. Firebase Backend
+
+Koristiti:
+
+ Firebase Authentication
+
+   email ili anonimni login
+ Cloud Firestore kolekcije:
+
+   users (uloga, fokusi, lokacija, hashed JMBG)
+   help_requests
+   help_offers
+   messages
+   ratings
+
+ 4. AI Matching (simulacija)
+
+ jednostavna logika:
+
+   lokacija + kategorija
+ prikaz tekstualne “AI preporuke”
+
+ 5. Komunikacija
+
+ in-app chat
+ real-time sync preko Firestorea
+
+ 6. Reputacija
+
+ sistem ocjenjivanja nakon završene pomoći
+
+
+
+ TEHNIČKI ZAHTJEVI
+
+ Flutter (Material 3)
+ Firebase (Auth + Firestore)
+ Android-first
+ jednostavan state management
+ fokus na UX i čitljiv kod
+ bez arhitektonog overkill-a
+
+
+
+ DIZAJN SMJERNICE
+
+ mapa kao centralni UI element
+ jasna razlika između korisničkog i volonterskog režima
+ dva glavna CTA dugmeta za korisnika
+ minimalistički, human-centered dizajn
+
+
+
+ KONTEKST
+
+Aplikacija je namijenjena Mtel App konkursu, gdje se vrednuju:
+
+ društvena korist
+ inovativnost
+ dizajn
+ funkcionalnost
+ kvalitet implementacije
+
+
+
+Cilj:
+Generisati kompletan Flutter + Firebase MVP koji je tehnički ispravan, čistog koda i spreman za demonstraciju.
