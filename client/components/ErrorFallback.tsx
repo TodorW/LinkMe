@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text,
   Modal,
+  Image,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { ThemedView } from "@/components/ThemedView";
@@ -58,12 +59,17 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
       ) : null}
 
       <View style={styles.content}>
+        <Image
+          source={require("../../assets/images/icon.png")}
+          style={styles.icon}
+          resizeMode="contain"
+        />
         <ThemedText type="h1" style={styles.title}>
-          Something went wrong
+          Oops! Something went wrong
         </ThemedText>
 
         <ThemedText type="body" style={styles.message}>
-          Please reload the app to continue.
+          LinkMe encountered an unexpected error. Please restart the app to continue helping your community.
         </ThemedText>
 
         <Pressable
@@ -71,7 +77,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           style={({ pressed }) => [
             styles.button,
             {
-              backgroundColor: theme.link,
+              backgroundColor: theme.primary,
               opacity: pressed ? 0.9 : 1,
               transform: [{ scale: pressed ? 0.98 : 1 }],
             },
@@ -81,7 +87,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
             type="body"
             style={[styles.buttonText, { color: theme.buttonText }]}
           >
-            Try Again
+            Restart LinkMe
           </ThemedText>
         </Pressable>
       </View>
@@ -159,6 +165,11 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 600,
   },
+  icon: {
+    width: 80,
+    height: 80,
+    marginBottom: Spacing.md,
+  },
   title: {
     textAlign: "center",
     lineHeight: 40,
@@ -182,7 +193,7 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    borderRadius: BorderRadius.xs,
     paddingHorizontal: Spacing["2xl"],
     minWidth: 200,
     shadowColor: "#000",

@@ -16,6 +16,7 @@ interface ButtonProps {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
+  variant?: "primary" | "secondary" | "outline";
 }
 
 const springConfig: WithSpringConfig = {
@@ -33,6 +34,7 @@ export function Button({
   children,
   style,
   disabled = false,
+  variant = "primary",
 }: ButtonProps) {
   const { theme } = useTheme();
   const scale = useSharedValue(1);
@@ -43,7 +45,7 @@ export function Button({
 
   const handlePressIn = () => {
     if (!disabled) {
-      scale.value = withSpring(0.98, springConfig);
+      scale.value = withSpring(0.97, springConfig);
     }
   };
 
@@ -52,6 +54,32 @@ export function Button({
       scale.value = withSpring(1, springConfig);
     }
   };
+
+  const getBackgroundColor = () => {
+    if (disabled) return theme.backgroundTertiary;
+    switch (variant) {
+      case "primary":
+        return theme.primary;
+      case "secondary":
+        return theme.secondary;
+      case "outline":
+        return "transparent";
+      default:
+        return theme.primary;
+    }
+  };
+
+  const getTextColor = () => {
+    if (disabled) return theme.textDisabled;
+    switch (variant) {
+      case "outline":
+        return theme.primary;
+      default:
+        return theme.buttonText;
+    }
+  };
+
+  const isTextChild = typeof children === "string";
 
   return (
     <AnimatedPressable
@@ -62,19 +90,24 @@ export function Button({
       style={[
         styles.button,
         {
-          backgroundColor: theme.link,
-          opacity: disabled ? 0.5 : 1,
+          backgroundColor: getBackgroundColor(),
+          borderWidth: variant === "outline" ? 2 : 0,
+          borderColor: variant === "outline" ? theme.primary : undefined,
         },
         style,
         animatedStyle,
       ]}
     >
-      <ThemedText
-        type="body"
-        style={[styles.buttonText, { color: theme.buttonText }]}
-      >
-        {children}
-      </ThemedText>
+      {isTextChild ? (
+        <ThemedText
+          type="button"
+          style={[styles.buttonText, { color: getTextColor() }]}
+        >
+          {children}
+        </ThemedText>
+      ) : (
+        children
+      )}
     </AnimatedPressable>
   );
 }
@@ -82,9 +115,10 @@ export function Button({
 const styles = StyleSheet.create({
   button: {
     height: Spacing.buttonHeight,
-    borderRadius: BorderRadius.full,
+    borderRadius: BorderRadius.xs,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: Spacing.xl,
   },
   buttonText: {
     fontWeight: "600",
