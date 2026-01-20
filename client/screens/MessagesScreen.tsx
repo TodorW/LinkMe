@@ -11,12 +11,16 @@ import { EmptyState } from "@/components/EmptyState";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing } from "@/constants/theme";
-import { Conversation } from "@/types";
-import { getConversations } from "@/lib/storage";
+import { Conversation, Message } from "@/types";
+import { api } from "@/lib/api";
 import * as Haptics from "expo-haptics";
 
 interface MessagesScreenProps {
   navigation: NativeStackNavigationProp<any>;
+}
+
+interface ConversationWithMessage extends Conversation {
+  lastMessage?: Message;
 }
 
 export default function MessagesScreen({ navigation }: MessagesScreenProps) {
@@ -26,7 +30,7 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
   const { theme } = useTheme();
   const { user } = useAuth();
 
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<ConversationWithMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -34,14 +38,15 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
     if (!user) return;
 
     try {
-      const allConversations = await getConversations();
-      const myConversations = allConversations
-        .filter((c) => c.participants.some((p) => p.id === user.id))
-        .sort(
-          (a, b) =>
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
-      setConversations(myConversations);
+      const apiConversations = await api.conversations.list(user.id);
+      const formattedConversations: ConversationWithMessage[] = apiConversations.map((conv) => ({
+        ...conv,
+        participants: [
+          { id: conv.participant1Id, name: conv.participant1Name },
+          { id: conv.participant2Id, name: conv.participant2Name },
+        ],
+      }));
+      setConversations(formattedConversations);
     } catch (error) {
       console.error("Failed to load conversations:", error);
     } finally {
@@ -62,7 +67,7 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
     loadConversations();
   }, [loadConversations]);
 
-  const handleConversationPress = (conversation: Conversation) => {
+  const handleConversationPress = (conversation: ConversationWithMessage) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     navigation.navigate("Chat", { conversation });
   };

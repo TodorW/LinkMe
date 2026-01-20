@@ -1,17 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "@/types";
 import { HelpCategoryId } from "@/constants/theme";
-import {
-  getUser,
-  saveUser,
-  clearUser,
-  hashJMBG,
-  checkJMBGExists,
-  addJMBGHash,
-  updateUserRole as storageUpdateRole,
-  updateUserCategories as storageUpdateCategories,
-  generateId,
-} from "@/lib/storage";
+import { hashJMBG } from "@/lib/storage";
+import { api } from "@/lib/api";
+
+const USER_STORAGE_KEY = "@linkme_user";
 
 interface AuthContextType {
   user: User | null;
@@ -22,6 +16,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   updateRole: (role: "user" | "volunteer") => Promise<void>;
   updateCategories: (categories: HelpCategoryId[]) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 interface RegisterData {
@@ -45,8 +40,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function loadUser() {
     try {
-      const storedUser = await getUser();
-      setUser(storedUser);
+      const storedUser = await AsyncStorage.getItem(USER_STORAGE_KEY);
+      if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        try {
+          const freshUser = await api.users.get(userData.id);
+          setUser(freshUser);
+          await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(freshUser));
+        } catch {
+          setUser(userData);
+        }
+      }
     } catch (error) {
       console.error("Failed to load user:", error);
     } finally {
@@ -54,67 +58,77 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function login(email: string, _password: string): Promise<{ success: boolean; error?: string }> {
-    try {
-      const storedUser = await getUser();
-      if (storedUser && storedUser.email === email) {
-        setUser(storedUser);
-        return { success: true };
+  async function refreshUser() {
+    if (user) {
+      try {
+        const freshUser = await api.users.get(user.id);
+        setUser(freshUser);
+        await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(freshUser));
+      } catch (error) {
+        console.error("Failed to refresh user:", error);
       }
-      return { success: false, error: "Invalid credentials. Please register first." };
+    }
+  }
+
+  async function login(email: string, password: string): Promise<{ success: boolean; error?: string }> {
+    try {
+      const loggedInUser = await api.auth.login(email, password);
+      setUser(loggedInUser);
+      await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(loggedInUser));
+      return { success: true };
     } catch (error) {
-      return { success: false, error: "Login failed. Please try again." };
+      const message = error instanceof Error ? error.message : "Login failed";
+      return { success: false, error: message };
     }
   }
 
   async function register(data: RegisterData): Promise<{ success: boolean; error?: string }> {
     try {
       const jmbgHash = await hashJMBG(data.jmbg);
-      
-      const exists = await checkJMBGExists(jmbgHash);
-      if (exists) {
-        return { success: false, error: "This ID is already registered. One person, one account." };
-      }
 
-      const newUser: User = {
-        id: generateId(),
+      const newUser = await api.auth.register({
         email: data.email,
+        password: data.password,
         name: data.name,
         role: data.role,
         jmbgHash,
         helpCategories: data.helpCategories,
-        rating: 0,
-        ratingCount: 0,
-        createdAt: new Date().toISOString(),
-      };
+      });
 
-      await saveUser(newUser);
-      await addJMBGHash(jmbgHash);
       setUser(newUser);
+      await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
 
       return { success: true };
     } catch (error) {
-      console.error("Registration error:", error);
-      return { success: false, error: "Registration failed. Please try again." };
+      const message = error instanceof Error ? error.message : "Registration failed";
+      return { success: false, error: message };
     }
   }
 
   async function logout(): Promise<void> {
-    await clearUser();
+    await AsyncStorage.removeItem(USER_STORAGE_KEY);
     setUser(null);
   }
 
   async function updateRole(role: "user" | "volunteer"): Promise<void> {
-    const updatedUser = await storageUpdateRole(role);
-    if (updatedUser) {
+    if (!user) return;
+    try {
+      const updatedUser = await api.users.update(user.id, { role });
       setUser(updatedUser);
+      await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Failed to update role:", error);
     }
   }
 
   async function updateCategories(categories: HelpCategoryId[]): Promise<void> {
-    const updatedUser = await storageUpdateCategories(categories);
-    if (updatedUser) {
+    if (!user) return;
+    try {
+      const updatedUser = await api.users.update(user.id, { helpCategories: categories });
       setUser(updatedUser);
+      await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Failed to update categories:", error);
     }
   }
 
@@ -129,6 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         updateRole,
         updateCategories,
+        refreshUser,
       }}
     >
       {children}

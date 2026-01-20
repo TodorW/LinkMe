@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
   FlatList,
   Pressable,
   RefreshControl,
-  Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -15,14 +14,14 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { RoleBadge } from "@/components/RoleBadge";
 import { HelpRequestCard } from "@/components/HelpRequestCard";
 import { EmptyState } from "@/components/EmptyState";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing, BorderRadius, HelpCategories, HelpCategoryId } from "@/constants/theme";
 import { HelpRequest } from "@/types";
-import { getHelpRequests, getAIMatchScore } from "@/lib/storage";
+import { api } from "@/lib/api";
+import { getAIMatchScore } from "@/lib/storage";
 import * as Haptics from "expo-haptics";
 
 interface MapScreenProps {
@@ -45,29 +44,33 @@ export default function MapScreen({ navigation }: MapScreenProps) {
   const isVolunteer = user?.role === "volunteer";
 
   const loadRequests = useCallback(async () => {
+    if (!user) return;
+    
     try {
-      const allRequests = await getHelpRequests();
-      let filteredRequests = allRequests.filter((r) => r.status === "open");
-
-      if (isVolunteer && user) {
-        filteredRequests = filteredRequests
+      let allRequests: HelpRequest[];
+      
+      if (isVolunteer) {
+        allRequests = await api.helpRequests.list({ status: "open" });
+        allRequests = allRequests
           .filter((r) => r.userId !== user.id)
           .map((r) => ({
             ...r,
-            aiMatchScore: getAIMatchScore(r, user.helpCategories),
+            aiMatchScore: getAIMatchScore(
+              { ...r, location: { latitude: r.latitude, longitude: r.longitude, address: r.address } },
+              user.helpCategories as HelpCategoryId[]
+            ),
           }))
           .sort((a, b) => (b.aiMatchScore || 0) - (a.aiMatchScore || 0));
-      } else if (user) {
-        filteredRequests = filteredRequests.filter((r) => r.userId === user.id);
+      } else {
+        allRequests = await api.helpRequests.list({ userId: user.id });
+        allRequests = allRequests.filter((r) => r.status === "open");
       }
 
       if (selectedCategory) {
-        filteredRequests = filteredRequests.filter(
-          (r) => r.category === selectedCategory
-        );
+        allRequests = allRequests.filter((r) => r.category === selectedCategory);
       }
 
-      setRequests(filteredRequests);
+      setRequests(allRequests);
     } catch (error) {
       console.error("Failed to load requests:", error);
     } finally {
