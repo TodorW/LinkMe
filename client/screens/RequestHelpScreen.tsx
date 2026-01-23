@@ -12,8 +12,7 @@ import { CategoryChip } from "@/components/CategoryChip";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing, BorderRadius, HelpCategories, HelpCategoryId } from "@/constants/theme";
-import { saveHelpRequest, generateId } from "@/lib/storage";
-import { HelpRequest } from "@/types";
+import { api } from "@/lib/api";
 import * as Haptics from "expo-haptics";
 
 interface RequestHelpScreenProps {
@@ -55,27 +54,22 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
     try {
-      const newRequest: HelpRequest = {
-        id: generateId(),
+      await api.helpRequests.create({
         userId: user.id,
         userName: user.name,
         category,
         description: description.trim(),
         urgency,
-        status: "open",
-        location: {
-          latitude: 44.7866 + Math.random() * 0.1 - 0.05,
-          longitude: 20.4489 + Math.random() * 0.1 - 0.05,
-          address: address || "My Location",
-        },
-        createdAt: new Date().toISOString(),
-      };
+        latitude: 44.7866 + Math.random() * 0.1 - 0.05,
+        longitude: 20.4489 + Math.random() * 0.1 - 0.05,
+        address: address || "My Location",
+      });
 
-      await saveHelpRequest(newRequest);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       navigation.goBack();
     } catch (err) {
-      setError("Failed to create request. Please try again.");
+      const message = err instanceof Error ? err.message : "Failed to create request";
+      setError(message);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
       setIsLoading(false);

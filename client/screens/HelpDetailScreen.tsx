@@ -13,8 +13,8 @@ import { CategoryChip } from "@/components/CategoryChip";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing, BorderRadius } from "@/constants/theme";
-import { HelpRequest, Conversation, Message } from "@/types";
-import { saveHelpRequest, saveConversation, saveMessage, generateId } from "@/lib/storage";
+import { HelpRequest } from "@/types";
+import { api } from "@/lib/api";
 import * as Haptics from "expo-haptics";
 
 interface HelpDetailScreenProps {
@@ -58,43 +58,39 @@ export default function HelpDetailScreen({
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
     try {
-      const updatedRequest: HelpRequest = {
-        ...request,
+      await api.helpRequests.update(request.id, {
         status: "accepted",
         volunteerId: user.id,
         volunteerName: user.name,
-      };
-      await saveHelpRequest(updatedRequest);
+      });
 
-      const newConversation: Conversation = {
-        id: generateId(),
+      const conversation = await api.conversations.create({
+        participant1Id: request.userId,
+        participant1Name: request.userName,
+        participant2Id: user.id,
+        participant2Name: user.name,
+        helpRequestId: request.id,
+      });
+
+      await api.messages.create(conversation.id, {
+        senderId: user.id,
+        senderName: user.name,
+        text: `Hi! I'd like to help you with your request: "${request.description.substring(0, 50)}..."`,
+      });
+
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      
+      const conversationWithParticipants = {
+        ...conversation,
         participants: [
           { id: request.userId, name: request.userName },
           { id: user.id, name: user.name },
         ],
-        helpRequestId: request.id,
-        updatedAt: new Date().toISOString(),
       };
-      await saveConversation(newConversation);
-
-      const initialMessage: Message = {
-        id: generateId(),
-        conversationId: newConversation.id,
-        senderId: user.id,
-        senderName: user.name,
-        text: `Hi! I'd like to help you with your request: "${request.description.substring(0, 50)}..."`,
-        createdAt: new Date().toISOString(),
-        read: false,
-      };
-      await saveMessage(initialMessage);
-
-      newConversation.lastMessage = initialMessage;
-      await saveConversation(newConversation);
-
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      
       navigation.navigate("MessagesTab", {
         screen: "Chat",
-        params: { conversation: newConversation },
+        params: { conversation: conversationWithParticipants },
       });
     } catch (error) {
       console.error("Failed to offer help:", error);
@@ -118,11 +114,7 @@ export default function HelpDetailScreen({
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
             try {
-              const updatedRequest: HelpRequest = {
-                ...request,
-                status: "cancelled",
-              };
-              await saveHelpRequest(updatedRequest);
+              await api.helpRequests.update(request.id, { status: "cancelled" });
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
               navigation.goBack();
             } catch (error) {
@@ -151,6 +143,8 @@ export default function HelpDetailScreen({
         return theme.textSecondary;
     }
   };
+
+  const address = request.address || (request as any).location?.address || "Unknown location";
 
   return (
     <ThemedView style={styles.container}>
@@ -221,7 +215,7 @@ export default function HelpDetailScreen({
           <View style={styles.infoRow}>
             <Feather name="map-pin" size={18} color={theme.primary} />
             <ThemedText type="body" style={styles.infoText}>
-              {request.location.address}
+              {address}
             </ThemedText>
           </View>
         </View>

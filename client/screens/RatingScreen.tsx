@@ -12,8 +12,8 @@ import { StarRating } from "@/components/StarRating";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing, BorderRadius } from "@/constants/theme";
-import { HelpRequest, Rating } from "@/types";
-import { saveRating, saveHelpRequest, generateId } from "@/lib/storage";
+import { HelpRequest } from "@/types";
+import { api } from "@/lib/api";
 import * as Haptics from "expo-haptics";
 
 interface RatingScreenProps {
@@ -48,23 +48,15 @@ export default function RatingScreen({ navigation, route }: RatingScreenProps) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
     try {
-      const newRating: Rating = {
-        id: generateId(),
+      await api.ratings.create({
         fromUserId: user.id,
         toUserId: targetUserId,
         helpRequestId: request.id,
         score: rating,
         comment: comment.trim() || undefined,
-        createdAt: new Date().toISOString(),
-      };
+      });
 
-      await saveRating(newRating);
-
-      const updatedRequest: HelpRequest = {
-        ...request,
-        status: "completed",
-      };
-      await saveHelpRequest(updatedRequest);
+      await api.helpRequests.update(request.id, { status: "completed" });
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       navigation.popToTop();

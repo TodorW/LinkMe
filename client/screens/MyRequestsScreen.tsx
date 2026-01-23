@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
+import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useFocusEffect } from "@react-navigation/native";
@@ -11,7 +11,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing } from "@/constants/theme";
 import { HelpRequest } from "@/types";
-import { getHelpRequests } from "@/lib/storage";
+import { api } from "@/lib/api";
 import * as Haptics from "expo-haptics";
 
 interface MyRequestsScreenProps {
@@ -32,10 +32,7 @@ export default function MyRequestsScreen({ navigation }: MyRequestsScreenProps) 
     if (!user) return;
     
     try {
-      const allRequests = await getHelpRequests();
-      const myRequests = allRequests
-        .filter((r) => r.userId === user.id)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      const myRequests = await api.helpRequests.list({ userId: user.id });
       setRequests(myRequests);
     } catch (error) {
       console.error("Failed to load requests:", error);

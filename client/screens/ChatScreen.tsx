@@ -19,12 +19,16 @@ import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/context/AuthContext";
 import { Spacing, BorderRadius } from "@/constants/theme";
 import { Message, Conversation } from "@/types";
-import { getMessages, saveMessage, saveConversation, generateId } from "@/lib/storage";
+import { api } from "@/lib/api";
 import * as Haptics from "expo-haptics";
+
+interface ConversationWithParticipants extends Conversation {
+  participants: { id: string; name: string }[];
+}
 
 interface ChatScreenProps {
   navigation: NativeStackNavigationProp<any>;
-  route: RouteProp<{ Chat: { conversation: Conversation } }, "Chat">;
+  route: RouteProp<{ Chat: { conversation: ConversationWithParticipants } }, "Chat">;
 }
 
 export default function ChatScreen({ navigation, route }: ChatScreenProps) {
@@ -52,7 +56,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
 
   const loadMessages = async () => {
     try {
-      const msgs = await getMessages(conversation.id);
+      const msgs = await api.messages.list(conversation.id);
       setMessages(msgs.sort((a, b) => 
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       ));
@@ -67,25 +71,12 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
     setIsSending(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-    const newMessage: Message = {
-      id: generateId(),
-      conversationId: conversation.id,
-      senderId: user.id,
-      senderName: user.name,
-      text: inputText.trim(),
-      createdAt: new Date().toISOString(),
-      read: false,
-    };
-
     try {
-      await saveMessage(newMessage);
-      
-      const updatedConversation: Conversation = {
-        ...conversation,
-        lastMessage: newMessage,
-        updatedAt: new Date().toISOString(),
-      };
-      await saveConversation(updatedConversation);
+      const newMessage = await api.messages.create(conversation.id, {
+        senderId: user.id,
+        senderName: user.name,
+        text: inputText.trim(),
+      });
 
       setMessages((prev) => [newMessage, ...prev]);
       setInputText("");
