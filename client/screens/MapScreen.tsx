@@ -55,10 +55,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
           .filter((r) => r.userId !== user.id)
           .map((r) => ({
             ...r,
-            aiMatchScore: getAIMatchScore(
-              { ...r, location: { latitude: r.latitude, longitude: r.longitude, address: r.address } },
-              user.helpCategories as HelpCategoryId[]
-            ),
+            aiMatchScore: getAIMatchScore(r, user.helpCategories as HelpCategoryId[]),
           }))
           .sort((a, b) => (b.aiMatchScore || 0) - (a.aiMatchScore || 0));
       } else {

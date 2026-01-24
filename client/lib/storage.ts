@@ -193,10 +193,13 @@ export function getAIMatchScore(
     score += 50;
   }
   
-  if (volunteerLocation) {
+  const reqLat = request.latitude ?? request.location?.latitude;
+  const reqLon = request.longitude ?? request.location?.longitude;
+  
+  if (volunteerLocation && reqLat !== undefined && reqLon !== undefined) {
     const distance = calculateDistance(
-      request.location.latitude,
-      request.location.longitude,
+      reqLat,
+      reqLon,
       volunteerLocation.latitude,
       volunteerLocation.longitude
     );

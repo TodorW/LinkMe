@@ -136,7 +136,7 @@ export function HelpRequestCard({
             style={[styles.locationText, { color: theme.textSecondary }]}
             numberOfLines={1}
           >
-            {request.location.address}
+            {request.address || (request as any).location?.address || "Unknown location"}
           </ThemedText>
         </View>
         {showAIScore && request.aiMatchScore !== undefined ? (

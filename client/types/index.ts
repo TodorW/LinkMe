@@ -22,7 +22,10 @@ export interface HelpRequest {
   description: string;
   urgency: "urgent" | "flexible";
   status: "open" | "accepted" | "completed" | "cancelled";
-  location: {
+  latitude: number;
+  longitude: number;
+  address: string;
+  location?: {
     latitude: number;
     longitude: number;
     address: string;
@@ -45,6 +48,10 @@ export interface Message {
 
 export interface Conversation {
   id: string;
+  participant1Id?: string;
+  participant1Name?: string;
+  participant2Id?: string;
+  participant2Name?: string;
   participants: {
     id: string;
     name: string;
