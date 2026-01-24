@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "304078099310",
+    "project_id": "linkme-back-mtel",
+    "storage_bucket": "linkme-back-mtel.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304078099310:android:89db53f3fda75e7cf4a77f",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCai06Cuu7k46a-LM60WAMGXkhU_POPCQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
