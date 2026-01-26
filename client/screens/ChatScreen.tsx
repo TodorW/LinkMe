@@ -140,7 +140,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
         type="body"
         style={[styles.emptyText, { color: theme.textSecondary }]}
       >
-        Start the conversation by sending a message
+        Započnite konverzaciju slanjem poruke.
       </ThemedText>
     </View>
   );

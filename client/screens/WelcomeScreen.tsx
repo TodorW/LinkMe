@@ -53,16 +53,16 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
         </View>
 
         <ThemedText type="h2" style={styles.tagline}>
-          Connect. Help. Grow Together.
+          Poveži se. Pomozi. Rastimo zajedno.
         </ThemedText>
 
         <ThemedText
           type="body"
           style={[styles.description, { color: theme.textSecondary }]}
         >
-          Join your local community and make a difference. Whether you need help
-          or want to volunteer, LinkMe connects neighbors for everyday
-          micro-solidarity.
+          Pridruži se svojoj lokalnoj zajednici i napravi razliku. Bilo da ti treba pomoć 
+          ili želiš da volontiraš, LinkMe povezuje komšije za 
+          svakodnevnu mikro-solidarnost.
         </ThemedText>
 
         <View style={styles.features}>
@@ -94,7 +94,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
           onPress={() => navigation.navigate("Register")}
           style={styles.primaryButton}
         >
-          Get Started
+          Započni
         </Button>
         <Button
           onPress={() => navigation.navigate("Login")}
@@ -108,7 +108,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
           ]}
         >
           <ThemedText style={{ color: theme.primary, fontWeight: "600" }}>
-            I already have an account
+            Već imam nalog
           </ThemedText>
         </Button>
       </View>

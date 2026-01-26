@@ -27,7 +27,7 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
 
   const [category, setCategory] = useState<HelpCategoryId | null>(null);
   const [description, setDescription] = useState("");
-  const [address, setAddress] = useState("My Location");
+  const [address, setAddress] = useState("Moja lokacija");
   const [urgency, setUrgency] = useState<"urgent" | "flexible">("flexible");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,17 +36,17 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
     setError("");
 
     if (!category) {
-      setError("Please select a help category.");
+      setError("Izaberi kategoriju pomoći.");
       return;
     }
 
     if (!description.trim()) {
-      setError("Please describe what you need help with.");
+      setError("Molimo opišite za šta Vam treba pomoć.");
       return;
     }
 
     if (!user) {
-      setError("You must be logged in to create a request.");
+      setError("Morate biti prijavljeni da biste kreirali zahtjev.");
       return;
     }
 
@@ -62,13 +62,13 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
         urgency,
         latitude: 44.7866 + Math.random() * 0.1 - 0.05,
         longitude: 20.4489 + Math.random() * 0.1 - 0.05,
-        address: address || "My Location",
+        address: address || "Moja lokacija",
       });
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       navigation.goBack();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to create request";
+      const message = err instanceof Error ? err.message : "Neuspješno kreiranje zahtjeva";
       setError(message);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
@@ -91,18 +91,18 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
         showsVerticalScrollIndicator={false}
       >
         <ThemedText type="h2" style={styles.title}>
-          Request Help
+          Zatraži pomoć
         </ThemedText>
         <ThemedText
           type="body"
           style={[styles.subtitle, { color: theme.textSecondary }]}
         >
-          Tell your community what you need help with
+          Recite svojoj zajednici za šta vam treba pomoć
         </ThemedText>
 
         <View style={styles.section}>
           <ThemedText type="body" style={styles.label}>
-            What type of help do you need?
+            Kategorija pomoći
           </ThemedText>
           <View style={styles.categoriesGrid}>
             {HelpCategories.map((cat) => (
@@ -118,7 +118,7 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
 
         <View style={styles.section}>
           <ThemedText type="body" style={styles.label}>
-            Describe what you need
+            Opis pomoći
           </ThemedText>
           <View
             style={[
@@ -130,7 +130,7 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
             ]}
           >
             <Input
-              placeholder="E.g., I need someone to help me carry groceries from the store..."
+              placeholder="Npr., treba mi neko da mi pomogne da donesem namirnice iz prodavnice…"
               multiline
               numberOfLines={4}
               value={description}
@@ -142,7 +142,7 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
 
         <View style={styles.section}>
           <ThemedText type="body" style={styles.label}>
-            Location
+            Lokacija
           </ThemedText>
           <Pressable
             style={[
@@ -166,18 +166,18 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
             type="small"
             style={[styles.hint, { color: theme.textSecondary }]}
           >
-            Your approximate location will be shared with volunteers
+            Vaša približna lokacija će biti podijeljena sa volonterima
           </ThemedText>
         </View>
 
         <View style={styles.section}>
           <ThemedText type="body" style={styles.label}>
-            How urgent is this?
+            Koliko hitno je ovo?
           </ThemedText>
           <View style={styles.urgencyOptions}>
             <UrgencyOption
-              label="Flexible"
-              description="Can wait a few days"
+              label="Fleksibilno"
+              description="Može čekati nekoliko dana"
               icon="clock"
               selected={urgency === "flexible"}
               onPress={() => {
@@ -187,8 +187,8 @@ export default function RequestHelpScreen({ navigation }: RequestHelpScreenProps
               theme={theme}
             />
             <UrgencyOption
-              label="Urgent"
-              description="Need help soon"
+              label="Hitno"
+              description="Potrebna pomoć uskoro"
               icon="alert-circle"
               selected={urgency === "urgent"}
               onPress={() => {

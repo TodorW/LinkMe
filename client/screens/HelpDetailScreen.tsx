@@ -45,10 +45,10 @@ export default function HelpDetailScreen({
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins} minutes ago`;
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    return `${diffDays} days ago`;
+    if (diffMins < 1) return "Upravo sada";
+    if (diffMins < 60) return `Prije ${diffMins} minuta`;
+    if (diffHours < 24) return `Prije ${diffHours} sati`;
+    return `Prije ${diffDays} dana`;
   };
 
   const handleOfferHelp = async () => {
@@ -75,7 +75,7 @@ export default function HelpDetailScreen({
       await api.messages.create(conversation.id, {
         senderId: user.id,
         senderName: user.name,
-        text: `Hi! I'd like to help you with your request: "${request.description.substring(0, 50)}..."`,
+        text: `Pozdrav! Htio/Htjela bih Vam pomoći sa Vašim zahtjevom: "${request.description.substring(0, 50)}..."`,
       });
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -93,7 +93,7 @@ export default function HelpDetailScreen({
         params: { conversation: conversationWithParticipants },
       });
     } catch (error) {
-      console.error("Failed to offer help:", error);
+      console.error("Neuspješno ponuđena pomoć:", error);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
       setIsLoading(false);
@@ -102,12 +102,12 @@ export default function HelpDetailScreen({
 
   const handleCancelRequest = async () => {
     Alert.alert(
-      "Cancel Request",
-      "Are you sure you want to cancel this help request?",
+      "Otkaži Zahtjev",
+      "Jeste li sigurni da želite otkazati ovaj zahtjev za pomoć?",
       [
-        { text: "No", style: "cancel" },
+        { text: "Ne", style: "cancel" },
         {
-          text: "Yes, Cancel",
+          text: "Da, Otkaži",
           style: "destructive",
           onPress: async () => {
             setIsLoading(true);
@@ -118,7 +118,7 @@ export default function HelpDetailScreen({
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
               navigation.goBack();
             } catch (error) {
-              console.error("Failed to cancel request:", error);
+              console.error("Neuspješno otkazivanje zahtjeva:", error);
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             } finally {
               setIsLoading(false);
@@ -144,7 +144,7 @@ export default function HelpDetailScreen({
     }
   };
 
-  const address = request.address || (request as any).location?.address || "Unknown location";
+  const address = request.address || (request as any).location?.address || "Nepoznata lokacija";
 
   return (
     <ThemedView style={styles.container}>
@@ -237,7 +237,7 @@ export default function HelpDetailScreen({
               type="small"
               style={[styles.aiMatchText, { color: theme.secondary }]}
             >
-              Based on your skills and location, you're a great fit to help with this request!
+              Na osnovu Vaših vještina i lokacije, Vi ste odličan kandidat za pomoć sa ovim zahtjevom!
             </ThemedText>
           </View>
         ) : null}
@@ -252,7 +252,7 @@ export default function HelpDetailScreen({
             <Feather name="user-check" size={20} color={theme.secondary} />
             <View style={styles.volunteerInfo}>
               <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                Volunteer assigned
+                Volonter zadužen
               </ThemedText>
               <ThemedText type="body" style={{ fontWeight: "600" }}>
                 {request.volunteerName}
@@ -282,7 +282,7 @@ export default function HelpDetailScreen({
             ]}
           >
             <ThemedText style={{ color: theme.error, fontWeight: "600" }}>
-              Cancel Request
+              Otkaži Zahtjev
             </ThemedText>
           </Pressable>
         ) : null}
@@ -293,7 +293,7 @@ export default function HelpDetailScreen({
             disabled={isLoading}
             style={styles.helpButton}
           >
-            {isLoading ? "Connecting..." : "Offer Help"}
+            {isLoading ? "Povezivanje..." : "Ponudi pomoć"}
           </Button>
         ) : null}
 
@@ -302,7 +302,7 @@ export default function HelpDetailScreen({
             onPress={() => navigation.navigate("Rating", { request })}
             style={styles.helpButton}
           >
-            Mark as Completed
+            Označi kao završeno
           </Button>
         ) : null}
       </View>

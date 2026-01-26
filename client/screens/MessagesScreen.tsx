@@ -48,7 +48,7 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
       }));
       setConversations(formattedConversations);
     } catch (error) {
-      console.error("Failed to load conversations:", error);
+      console.error("Neuspjelo učitavanje konverzacija:", error);
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -69,14 +69,14 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
 
   const handleConversationPress = (conversation: ConversationWithMessage) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    navigation.navigate("Chat", { conversation });
+    navigation.navigate("Konverzacija", { conversation });
   };
 
   const renderEmpty = () => (
     <EmptyState
       image={require("../../assets/images/empty-messages.png")}
-      title="No conversations yet"
-      description="When you connect with someone for help, your messages will appear here"
+      title="Nema konverzacija još"
+      description="Kada se povežeš s nekim za pomoć, tvoje poruke će se pojaviti ovdje"
     />
   );
 

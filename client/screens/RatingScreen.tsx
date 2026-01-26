@@ -61,7 +61,7 @@ export default function RatingScreen({ navigation, route }: RatingScreenProps) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       navigation.popToTop();
     } catch (error) {
-      console.error("Failed to submit rating:", error);
+      console.error("Neuspješno slanje ocene:", error);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
       setIsLoading(false);
@@ -95,8 +95,8 @@ export default function RatingScreen({ navigation, route }: RatingScreenProps) {
             style={[styles.subtitle, { color: theme.textSecondary }]}
           >
             {isVolunteer
-              ? "How was your experience helping?"
-              : "How was the help you received?"}
+              ? "Kako je bilo tvoje iskustvo pomažući?"
+              : "Kakva je bila pomoć koju si dobio?"}
           </ThemedText>
         </View>
 
@@ -107,7 +107,7 @@ export default function RatingScreen({ navigation, route }: RatingScreenProps) {
           ]}
         >
           <ThemedText type="body" style={styles.ratingLabel}>
-            Rate your experience
+            Ocijeni svoje iskustvo
           </ThemedText>
           <View style={styles.starsContainer}>
             <StarRating
@@ -122,18 +122,18 @@ export default function RatingScreen({ navigation, route }: RatingScreenProps) {
             style={[styles.ratingHint, { color: theme.textSecondary }]}
           >
             {rating === 0
-              ? "Tap a star to rate"
+              ? "Izaberi ocjenu"
               : rating <= 2
-              ? "We're sorry to hear that"
+              ? "Žao nam je što tvoje iskustvo nije bilo najbolje."
               : rating <= 4
-              ? "Thanks for your feedback!"
-              : "Wonderful!"}
+              ? "Hvala na tvojoj ocjeni!"
+              : "Sjajno!"}
           </ThemedText>
         </View>
 
         <View style={styles.commentSection}>
           <ThemedText type="body" style={styles.commentLabel}>
-            Leave a comment (optional)
+            Ostavi komentar (opciono)
           </ThemedText>
           <View
             style={[
@@ -175,7 +175,7 @@ export default function RatingScreen({ navigation, route }: RatingScreenProps) {
           type="small"
           style={[styles.note, { color: theme.textSecondary }]}
         >
-          Your rating helps build trust in the LinkMe community
+          Tvoja ocjena pomaže u izgradnji povjerenja u LinkMe zajednicu
         </ThemedText>
       </KeyboardAwareScrollViewCompat>
     </ThemedView>

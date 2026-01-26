@@ -64,7 +64,7 @@ export default function ProfileScreen() {
     return (
       <ThemedView style={styles.container}>
         <View style={styles.centered}>
-          <ThemedText>Please log in to view your profile</ThemedText>
+          <ThemedText>Molimo Vas da se prijavite da biste vidjeli svoj profil</ThemedText>
         </View>
       </ThemedView>
     );
@@ -113,14 +113,14 @@ export default function ProfileScreen() {
             >
               {user.ratingCount > 0
                 ? `${user.rating.toFixed(1)} (${user.ratingCount} reviews)`
-                : "No reviews yet"}
+                : "Nema recenzija još"}
             </ThemedText>
           </View>
         </View>
 
         <View style={styles.section}>
           <ThemedText type="h4" style={styles.sectionTitle}>
-            Role
+            Uloga
           </ThemedText>
           <View
             style={[
@@ -136,15 +136,15 @@ export default function ProfileScreen() {
               />
               <View style={styles.settingText}>
                 <ThemedText type="body" style={{ fontWeight: "600" }}>
-                  {isVolunteer ? "Volunteering" : "Seeking Help"}
+                  {isVolunteer ? "Volonter" : "Tražitelj pomoći"}
                 </ThemedText>
                 <ThemedText
                   type="small"
                   style={{ color: theme.textSecondary }}
                 >
                   {isVolunteer
-                    ? "You can see and accept help requests"
-                    : "You can create help requests"}
+                    ? "Možeš vidjeti i prihvatiti zahtjeve za pomoć"
+                    : "Možeš stvoriti zahtjeve za pomoć"}
                 </ThemedText>
               </View>
             </View>
@@ -163,13 +163,13 @@ export default function ProfileScreen() {
         {isVolunteer ? (
           <View style={styles.section}>
             <ThemedText type="h4" style={styles.sectionTitle}>
-              Help Categories
+              Kategorije pomoći
             </ThemedText>
             <ThemedText
               type="small"
               style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
             >
-              Select the types of help you can provide
+              Izaberi vrste pomoći koje možeš pružiti
             </ThemedText>
             <View style={styles.categoriesGrid}>
               {HelpCategories.map((category) => (
@@ -230,7 +230,7 @@ export default function ProfileScreen() {
               type="body"
               style={[styles.logoutText, { color: theme.error }]}
             >
-              Log Out
+              Odjava
             </ThemedText>
           </Pressable>
         </View>

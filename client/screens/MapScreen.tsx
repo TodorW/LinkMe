@@ -69,7 +69,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
 
       setRequests(allRequests);
     } catch (error) {
-      console.error("Failed to load requests:", error);
+      console.error("Neuspjelo učitavanje zahtjeva:", error);
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -97,7 +97,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
     <View style={styles.listHeader}>
       <View style={styles.sectionHeader}>
         <ThemedText type="h3">
-          {isVolunteer ? "People Need Help" : "Your Requests"}
+          {isVolunteer ? "Ljudi trebaju pomoć" : "Tvoji zahtjevi"}
         </ThemedText>
         {isVolunteer ? (
           <Pressable
@@ -170,7 +170,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
             type="small"
             style={[styles.aiTipText, { color: theme.secondary }]}
           >
-            AI matched based on your skills and location
+            AI je izvršio podudaranje na osnovu vaših vještina i lokacije.
           </ThemedText>
         </View>
       ) : null}
@@ -180,13 +180,13 @@ export default function MapScreen({ navigation }: MapScreenProps) {
   const renderEmpty = () => (
     <EmptyState
       image={require("../../assets/images/empty-map.png")}
-      title={isVolunteer ? "No requests nearby" : "No active requests"}
+      title={isVolunteer ? "Nema zahtjeva u blizini" : "Nema otvorenih zahtjeva"}
       description={
         isVolunteer
-          ? "Check back later or expand your search radius"
-          : "Tap the button below to create a new help request"
+          ? "Probajte osvježiti kasnije ili proširite područje pretraživanja"
+          : "Kliknite ispod da zatražite pomoć"
       }
-      actionLabel={!isVolunteer ? "Request Help" : undefined}
+      actionLabel={!isVolunteer ? "Zatraži Pomoć" : undefined}
       onAction={!isVolunteer ? () => navigation.navigate("RequestHelp") : undefined}
     />
   );
@@ -252,7 +252,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
               type="small"
               style={[styles.fabSecondaryText, { color: theme.primary }]}
             >
-              My Requests
+              Moji Zahtjevi
             </ThemedText>
           </Pressable>
 
@@ -271,7 +271,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
             ]}
           >
             <Feather name="plus" size={24} color="#FFFFFF" />
-            <ThemedText style={styles.fabPrimaryText}>Request Help</ThemedText>
+            <ThemedText style={styles.fabPrimaryText}>Zatraži Pomoć</ThemedText>
           </Pressable>
         </View>
       ) : null}
