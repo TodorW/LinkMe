@@ -49,7 +49,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: otherParticipant?.name || "Chat",
+      headerTitle: otherParticipant?.name || "Ćaskanje",
     });
     loadMessages();
   }, []);
@@ -61,7 +61,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       ));
     } catch (error) {
-      console.error("Failed to load messages:", error);
+      console.error("Neuspješno učitavanje poruka:", error);
     }
   };
 
@@ -81,7 +81,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
       setMessages((prev) => [newMessage, ...prev]);
       setInputText("");
     } catch (error) {
-      console.error("Failed to send message:", error);
+      console.error("Neuspješno slanje poruke:", error);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
       setIsSending(false);
@@ -140,7 +140,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
         type="body"
         style={[styles.emptyText, { color: theme.textSecondary }]}
       >
-        Započnite konverzaciju slanjem poruke.
+        Započnite razgovor slanjem poruke
       </ThemedText>
     </View>
   );
@@ -192,7 +192,7 @@ export default function ChatScreen({ navigation, route }: ChatScreenProps) {
           >
             <TextInput
               style={[styles.input, { color: theme.text }]}
-              placeholder="Type a message..."
+              placeholder="Napišite poruku..."
               placeholderTextColor={theme.textDisabled}
               value={inputText}
               onChangeText={setInputText}

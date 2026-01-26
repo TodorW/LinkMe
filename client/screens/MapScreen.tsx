@@ -69,7 +69,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
 
       setRequests(allRequests);
     } catch (error) {
-      console.error("Neuspjelo učitavanje zahtjeva:", error);
+      console.error("Neuspješno učitavanje zahtjeva:", error);
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -97,7 +97,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
     <View style={styles.listHeader}>
       <View style={styles.sectionHeader}>
         <ThemedText type="h3">
-          {isVolunteer ? "Ljudi trebaju pomoć" : "Tvoji zahtjevi"}
+          {isVolunteer ? "Ljudi trebaju pomoć" : "Vaši zahtjevi"}
         </ThemedText>
         {isVolunteer ? (
           <Pressable
@@ -120,7 +120,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={[{ id: null, label: "All" }, ...HelpCategories]}
+            data={[{ id: null, label: "Sve" }, ...HelpCategories]}
             keyExtractor={(item) => item.id || "all"}
             renderItem={({ item }) => (
               <Pressable
@@ -170,7 +170,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
             type="small"
             style={[styles.aiTipText, { color: theme.secondary }]}
           >
-            AI je izvršio podudaranje na osnovu vaših vještina i lokacije.
+            AI je uporedio na osnovu Vaših vještina i lokacije
           </ThemedText>
         </View>
       ) : null}
@@ -180,13 +180,13 @@ export default function MapScreen({ navigation }: MapScreenProps) {
   const renderEmpty = () => (
     <EmptyState
       image={require("../../assets/images/empty-map.png")}
-      title={isVolunteer ? "Nema zahtjeva u blizini" : "Nema otvorenih zahtjeva"}
+      title={isVolunteer ? "Nema zahtjeva u blizini" : "Nema aktivnih zahtjeva"}
       description={
         isVolunteer
-          ? "Probajte osvježiti kasnije ili proširite područje pretraživanja"
-          : "Kliknite ispod da zatražite pomoć"
+          ? "Provjerite kasnije ili proširite radijus pretrage"
+          : "Dodirnite dugme ispod da kreirate novi zahtjev za pomoć"
       }
-      actionLabel={!isVolunteer ? "Zatraži Pomoć" : undefined}
+      actionLabel={!isVolunteer ? "Zatražite pomoć" : undefined}
       onAction={!isVolunteer ? () => navigation.navigate("RequestHelp") : undefined}
     />
   );
@@ -252,7 +252,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
               type="small"
               style={[styles.fabSecondaryText, { color: theme.primary }]}
             >
-              Moji Zahtjevi
+              Moji zahtjevi
             </ThemedText>
           </Pressable>
 
@@ -271,7 +271,7 @@ export default function MapScreen({ navigation }: MapScreenProps) {
             ]}
           >
             <Feather name="plus" size={24} color="#FFFFFF" />
-            <ThemedText style={styles.fabPrimaryText}>Zatraži Pomoć</ThemedText>
+            <ThemedText style={styles.fabPrimaryText}>Zatražite pomoć</ThemedText>
           </Pressable>
         </View>
       ) : null}

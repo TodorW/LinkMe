@@ -75,7 +75,7 @@ export default function HelpDetailScreen({
       await api.messages.create(conversation.id, {
         senderId: user.id,
         senderName: user.name,
-        text: `Pozdrav! Htio/Htjela bih Vam pomoći sa Vašim zahtjevom: "${request.description.substring(0, 50)}..."`,
+        text: `Zdravo! Želio/željela bih da Vam pomognem sa Vašim zahtjevom: "${request.description.substring(0, 50)}..."`,
       });
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -102,12 +102,12 @@ export default function HelpDetailScreen({
 
   const handleCancelRequest = async () => {
     Alert.alert(
-      "Otkaži Zahtjev",
-      "Jeste li sigurni da želite otkazati ovaj zahtjev za pomoć?",
+      "Otkaži zahtjev",
+      "Da li ste sigurni da želite da otkažete ovaj zahtjev za pomoć?",
       [
         { text: "Ne", style: "cancel" },
         {
-          text: "Da, Otkaži",
+          text: "Da, otkaži",
           style: "destructive",
           onPress: async () => {
             setIsLoading(true);
@@ -180,7 +180,7 @@ export default function HelpDetailScreen({
               style={[styles.urgentBadge, { backgroundColor: theme.error }]}
             >
               <Feather name="alert-circle" size={14} color="#FFFFFF" />
-              <ThemedText style={styles.urgentText}>Urgent</ThemedText>
+              <ThemedText style={styles.urgentText}>Hitno</ThemedText>
             </View>
           ) : null}
         </View>
@@ -230,14 +230,14 @@ export default function HelpDetailScreen({
             <View style={styles.aiMatchHeader}>
               <Feather name="zap" size={20} color={theme.secondary} />
               <ThemedText type="h4" style={{ color: theme.secondary, marginLeft: Spacing.sm }}>
-                AI Match: {request.aiMatchScore}%
+                AI poklapanje: {request.aiMatchScore}%
               </ThemedText>
             </View>
             <ThemedText
               type="small"
               style={[styles.aiMatchText, { color: theme.secondary }]}
             >
-              Na osnovu Vaših vještina i lokacije, Vi ste odličan kandidat za pomoć sa ovim zahtjevom!
+              Na osnovu Vaših vještina i lokacije, savršeno ste za pomoć sa ovim zahtjevom!
             </ThemedText>
           </View>
         ) : null}
@@ -252,7 +252,7 @@ export default function HelpDetailScreen({
             <Feather name="user-check" size={20} color={theme.secondary} />
             <View style={styles.volunteerInfo}>
               <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                Volonter zadužen
+                Volonter je dodeljen
               </ThemedText>
               <ThemedText type="body" style={{ fontWeight: "600" }}>
                 {request.volunteerName}
@@ -282,7 +282,7 @@ export default function HelpDetailScreen({
             ]}
           >
             <ThemedText style={{ color: theme.error, fontWeight: "600" }}>
-              Otkaži Zahtjev
+              Otkaži zahtjev
             </ThemedText>
           </Pressable>
         ) : null}
@@ -293,7 +293,7 @@ export default function HelpDetailScreen({
             disabled={isLoading}
             style={styles.helpButton}
           >
-            {isLoading ? "Povezivanje..." : "Ponudi pomoć"}
+            {isLoading ? "Povezivanje..." : "Ponuđite pomoć"}
           </Button>
         ) : null}
 

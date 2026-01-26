@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     setError("");
 
     if (!email || !password) {
-      setError("Molimo ispunite sva polja.");
+      setError("Molimo popunite sva polja.");
       return;
     }
 
@@ -44,7 +44,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     setIsLoading(false);
 
     if (!result.success) {
-      setError(result.error || "Neuspješna prijava. Pokušajte ponovno.");
+      setError(result.error || "Prijava nije uspjela.");
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -77,13 +77,13 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         </View>
 
         <ThemedText type="h2" style={styles.title}>
-          Dobrodošli Natrag
+          Dobrodošli nazad
         </ThemedText>
         <ThemedText
           type="body"
           style={[styles.subtitle, { color: theme.textSecondary }]}
         >
-          Prijavite se da nastavite pomoći svojoj zajednici
+          Prijavite se da biste nastavili da pomažete svojoj zajednici
         </ThemedText>
 
         <View
@@ -98,7 +98,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           <Input
             label="Email"
             icon="mail"
-            placeholder="your@email.com"
+            placeholder="vas@email.com"
             keyboardType="email-address"
             autoCapitalize="none"
             value={email}
@@ -128,7 +128,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
             disabled={isLoading}
             style={styles.button}
           >
-            {isLoading ? "Prijavljivanje..." : "Prijavi se"}
+            {isLoading ? "Prijavljivanje..." : "Prijavite se"}
           </Button>
         </View>
 
@@ -137,10 +137,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           style={styles.registerLink}
         >
           <ThemedText type="body" style={{ color: theme.textSecondary }}>
-            Nemate račun?{" "}
+            Nemate nalog?{" "}
           </ThemedText>
           <ThemedText type="body" style={{ color: theme.primary, fontWeight: "600" }}>
-            Registruj se
+            Registrujte se
           </ThemedText>
         </Pressable>
       </KeyboardAwareScrollViewCompat>

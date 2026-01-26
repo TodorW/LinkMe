@@ -44,12 +44,12 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     Alert.alert(
-      "Log Out",
-      "Are you sure you want to log out?",
+      "Odjava",
+      "Da li ste sigurni da se želite odjaviti?",
       [
-        { text: "Cancel", style: "cancel" },
+        { text: "Otkaži", style: "cancel" },
         {
-          text: "Log Out",
+          text: "Odjavi se",
           style: "destructive",
           onPress: async () => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -64,7 +64,7 @@ export default function ProfileScreen() {
     return (
       <ThemedView style={styles.container}>
         <View style={styles.centered}>
-          <ThemedText>Molimo Vas da se prijavite da biste vidjeli svoj profil</ThemedText>
+          <ThemedText>Molimo prijavite se da biste vidjeli svoj profil</ThemedText>
         </View>
       </ThemedView>
     );
@@ -112,8 +112,8 @@ export default function ProfileScreen() {
               style={[styles.ratingText, { color: theme.textSecondary }]}
             >
               {user.ratingCount > 0
-                ? `${user.rating.toFixed(1)} (${user.ratingCount} reviews)`
-                : "Nema recenzija još"}
+                ? `${user.rating.toFixed(1)} (${user.ratingCount} recenzija)`
+                : "Još nema recenzija"}
             </ThemedText>
           </View>
         </View>
@@ -136,15 +136,15 @@ export default function ProfileScreen() {
               />
               <View style={styles.settingText}>
                 <ThemedText type="body" style={{ fontWeight: "600" }}>
-                  {isVolunteer ? "Volonter" : "Tražitelj pomoći"}
+                  {isVolunteer ? "Volontiranje" : "Traženje pomoći"}
                 </ThemedText>
                 <ThemedText
                   type="small"
                   style={{ color: theme.textSecondary }}
                 >
                   {isVolunteer
-                    ? "Možeš vidjeti i prihvatiti zahtjeve za pomoć"
-                    : "Možeš stvoriti zahtjeve za pomoć"}
+                    ? "Možete vidjeti i prihvatiti zahtjeve za pomoć"
+                    : "Možete kreirati zahtjeve za pomoć"}
                 </ThemedText>
               </View>
             </View>
@@ -169,7 +169,7 @@ export default function ProfileScreen() {
               type="small"
               style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
             >
-              Izaberi vrste pomoći koje možeš pružiti
+              Izaberite vrste pomoći koje možete pružiti
             </ThemedText>
             <View style={styles.categoriesGrid}>
               {HelpCategories.map((category) => (
@@ -186,29 +186,29 @@ export default function ProfileScreen() {
 
         <View style={styles.section}>
           <ThemedText type="h4" style={styles.sectionTitle}>
-            Settings
+            Postavke
           </ThemedText>
           <SettingItem
             icon="bell"
-            label="Notifications"
+            label="Obavještenja"
             theme={theme}
             onPress={() => {}}
           />
           <SettingItem
             icon="map-pin"
-            label="Location Permissions"
+            label="Dozvole za lokaciju"
             theme={theme}
             onPress={() => {}}
           />
           <SettingItem
             icon="shield"
-            label="Privacy Policy"
+            label="Politika privatnosti"
             theme={theme}
             onPress={() => {}}
           />
           <SettingItem
             icon="help-circle"
-            label="Help & Support"
+            label="Pomoć i podrška"
             theme={theme}
             onPress={() => {}}
           />
@@ -230,7 +230,7 @@ export default function ProfileScreen() {
               type="body"
               style={[styles.logoutText, { color: theme.error }]}
             >
-              Odjava
+              Odjavi se
             </ThemedText>
           </Pressable>
         </View>

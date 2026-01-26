@@ -53,32 +53,30 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
         </View>
 
         <ThemedText type="h2" style={styles.tagline}>
-          Poveži se. Pomozi. Rastimo zajedno.
+            Povežite se. Pomozite. Napredujte zajedno.
         </ThemedText>
 
         <ThemedText
           type="body"
           style={[styles.description, { color: theme.textSecondary }]}
         >
-          Pridruži se svojoj lokalnoj zajednici i napravi razliku. Bilo da ti treba pomoć 
-          ili želiš da volontiraš, LinkMe povezuje komšije za 
-          svakodnevnu mikro-solidarnost.
+            Pridružite se svojoj lokalnoj zajednici i učinite razliku. Bilo da vam je potrebna pomoć ili želite da volontirate, LinkMe povezuje komšije za svakodnevnu mikro-solidarnost.
         </ThemedText>
 
         <View style={styles.features}>
           <FeatureItem
             icon="map-pin"
-            text="Find help nearby"
+            text="Pronađite pomoć u blizini"
             theme={theme}
           />
           <FeatureItem
             icon="heart"
-            text="Support your neighbors"
+            text="Podržite svoje komšije"
             theme={theme}
           />
           <FeatureItem
             icon="star"
-            text="Build trusted connections"
+            text="Izgradite povjerljive veze"
             theme={theme}
           />
         </View>
@@ -94,7 +92,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
           onPress={() => navigation.navigate("Register")}
           style={styles.primaryButton}
         >
-          Započni
+            Započnite
         </Button>
         <Button
           onPress={() => navigation.navigate("Login")}

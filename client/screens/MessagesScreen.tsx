@@ -48,7 +48,7 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
       }));
       setConversations(formattedConversations);
     } catch (error) {
-      console.error("Neuspjelo učitavanje konverzacija:", error);
+      console.error("Neuspješno učitavanje konverzacija:", error);
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -69,14 +69,14 @@ export default function MessagesScreen({ navigation }: MessagesScreenProps) {
 
   const handleConversationPress = (conversation: ConversationWithMessage) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    navigation.navigate("Konverzacija", { conversation });
+    navigation.navigate("Chat", { conversation });
   };
 
   const renderEmpty = () => (
     <EmptyState
       image={require("../../assets/images/empty-messages.png")}
-      title="Nema konverzacija još"
-      description="Kada se povežeš s nekim za pomoć, tvoje poruke će se pojaviti ovdje"
+      title="Još nema konverzacija"
+      description="Kada se povežete sa nekim za pomoć, Vaše poruke će se pojaviti ovdje"
     />
   );
 

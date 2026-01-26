@@ -46,12 +46,12 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
     setError("");
 
     if (!email || !password || !name || !jmbg) {
-      setError("Molimo popunite sva polja.");
+      setError("Molimo popunite sva obavezna polja.");
       return;
     }
 
     if (jmbg.length !== 13 || !/^\d+$/.test(jmbg)) {
-      setError("JMBG mora sadržavati tačno 13 cifara.");
+      setError("JMBG mora imati tačno 13 cifara.");
       return;
     }
 
@@ -75,7 +75,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
     setIsLoading(false);
 
     if (!result.success) {
-      setError(result.error || "Registracija nije uspela. Pokušajte ponovo.");
+      setError(result.error || "Registracija nije uspjela.");
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -97,19 +97,19 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
         showsVerticalScrollIndicator={false}
       >
         <ThemedText type="h2" style={styles.title}>
-          Kreiraj svoj nalog
+          Kreirajte Vaš nalog
         </ThemedText>
         <ThemedText
           type="body"
           style={[styles.subtitle, { color: theme.textSecondary }]}
         >
-          Pridruži se našoj zajednici i započni svoju misiju pomoći ili primanja pomoći.
+          Pridružite se LinkMe i povežite se sa svojom zajednicom
         </ThemedText>
 
         <Input
           label="Email"
           icon="mail"
-          placeholder="your@email.com"
+          placeholder="vas@email.com"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
@@ -119,7 +119,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
         <Input
           label="Lozinka"
           icon="lock"
-          placeholder="Kreiraj lozinku"
+          placeholder="Kreirajte lozinku"
           isPassword
           value={password}
           onChangeText={setPassword}
@@ -136,7 +136,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
         <View style={styles.jmbgContainer}>
           <View style={styles.jmbgLabelRow}>
             <ThemedText type="small" style={styles.label}>
-              JMBG (Personal ID)
+              JMBG (Lična karta)
             </ThemedText>
             <Pressable
               onPress={() => {}}
@@ -150,7 +150,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
             </Pressable>
           </View>
           <Input
-            placeholder="13-digit personal ID"
+            placeholder="13-cifreni lični broj"
             keyboardType="number-pad"
             maxLength={13}
             value={jmbg}
@@ -160,7 +160,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
             type="small"
             style={[styles.jmbgNote, { color: theme.textSecondary }]}
           >
-            Koristi se samo da se osigura jedan nalog po osobi. Sigurno heširano.
+            Korišćeno samo da bi se osiguralo po jedan nalog po osobi. Sigurno heširano.
           </ThemedText>
         </View>
 
@@ -171,8 +171,8 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
           <View style={styles.roleOptions}>
             <RoleOption
               role="user"
-              label="Primim pomoć"
-              description="Treba mi pomoć od drugih"
+              label="Primam pomoć"
+              description="Trebam asistenciju od volontera"
               icon="help-circle"
               selected={role === "user"}
               onPress={() => {
@@ -183,8 +183,8 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
             />
             <RoleOption
               role="volunteer"
-              label="Volonter"
-              description="Želim da pomažem drugima"
+              label="Volontiram"
+              description="Želim da pomognem drugima u potrebi"
               icon="heart"
               selected={role === "volunteer"}
               onPress={() => {
@@ -199,7 +199,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
         {role === "volunteer" ? (
           <View style={styles.categoriesSection}>
             <ThemedText type="small" style={styles.label}>
-              Koji tip pomoći možeš pružiti?
+              Koje vrste pomoći možete da pružite?
             </ThemedText>
             <View style={styles.categoriesGrid}>
               {HelpCategories.map((category) => (
@@ -228,7 +228,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
           disabled={isLoading}
           style={styles.button}
         >
-          {isLoading ? "Creating Account..." : "Create Account"}
+          {isLoading ? "Kreiranje naloga..." : "Kreirajte nalog"}
         </Button>
 
         <Pressable
@@ -236,10 +236,10 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
           style={styles.loginLink}
         >
           <ThemedText type="body" style={{ color: theme.textSecondary }}>
-            Već imaš nalog?{" "}
+            Već imate nalog?{" "}
           </ThemedText>
           <ThemedText type="body" style={{ color: theme.primary, fontWeight: "600" }}>
-            Prijavi se
+            Prijavite se
           </ThemedText>
         </Pressable>
       </ScrollView>

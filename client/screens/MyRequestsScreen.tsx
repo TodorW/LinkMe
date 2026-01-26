@@ -35,7 +35,7 @@ export default function MyRequestsScreen({ navigation }: MyRequestsScreenProps) 
       const myRequests = await api.helpRequests.list({ userId: user.id });
       setRequests(myRequests);
     } catch (error) {
-      console.error("Neuspjelo učitavanje zahtjeva:", error);
+      console.error("Neuspješno učitavanje zahtjeva:", error);
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -62,9 +62,9 @@ export default function MyRequestsScreen({ navigation }: MyRequestsScreenProps) 
   const renderEmpty = () => (
     <EmptyState
       image={require("../../assets/images/empty-requests.png")}
-      title="Nema zahtjeva još"
-      description="Kada stvorite zahtjeve za pomoć, pojavit će se ovdje"
-      actionLabel="Stvori Zahtjev"
+      title="Još nema zahtjeva"
+      description="Kada kreirate zahtjeve za pomoć, oni će se pojaviti ovdje"
+      actionLabel="Kreiraj zahtjev"
       onAction={() => navigation.navigate("RequestHelp")}
     />
   );
