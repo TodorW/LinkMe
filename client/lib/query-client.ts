@@ -5,15 +5,23 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
  * @returns {string} The API base URL
  */
 export function getApiUrl(): string {
-  let host = process.env.EXPO_PUBLIC_DOMAIN;
+  const host = process.env.EXPO_PUBLIC_DOMAIN;
 
-  if (!host) {
-    throw new Error("EXPO_PUBLIC_DOMAIN is not set");
+  const productionUrl = "https://linkme.up.railway.app";
+  const devUrl = "http://localhost:5000";
+
+  // Use EXPO_PUBLIC_DOMAIN if set
+  if (host) {
+    return `https://${host}`;
   }
 
-  let url = new URL(`https://${host}`);
+  // Use dev URL in development mode
+  if (process.env.NODE_ENV === "development") {
+    return devUrl;
+  }
 
-  return url.href;
+  // Otherwise use production
+  return productionUrl;
 }
 
 async function throwIfResNotOk(res: Response) {

@@ -42,6 +42,12 @@
     ],
     "experiments": {
       "reactCompiler": true
+    },
+    "extra": {
+      "EXPO_PUBLIC_DOMAIN": "linkme.up.railway.app",
+      "eas": {
+        "projectId": "b730c561-05c8-45fd-b9ef-1d4c60671442"
+      }
     }
   }
 }
