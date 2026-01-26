@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
@@ -230,14 +231,19 @@ function setupErrorHandler(app: express.Application) {
   setupBodyParsing(app);
   setupRequestLogging(app);
 
-  configureExpoAndLanding(app);
+  //configureExpoAndLanding(app);
 
   const server = await registerRoutes(app);
 
   setupErrorHandler(app);
 
   const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen(
+
+  server.listen(port, () => {
+  log(`express server serving on port ${port}`);
+});
+
+  /*server.listen(
     {
       port,
       host: "0.0.0.0",
@@ -246,5 +252,5 @@ function setupErrorHandler(app: express.Application) {
     () => {
       log(`express server serving on port ${port}`);
     },
-  );
+  );*/
 })();
