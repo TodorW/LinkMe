@@ -1,1 +1,227 @@
-#App
+# LinkMe - Aplikacija za mikro-solidarnost u zajednici
+
+**Povezivanje komšija kojima je potrebna pomoć sa volonterima dobre volje**
+
+LinkMe je mobilna aplikacija dizajnirana da ojača lokalne zajednice olakšavanjem mikro-solidarnosti među komšijama. Bez obzira na to da li je nekom potrebna pomoć oko trgovine, kućnih popravki, prevoza ili tehničke podrške, LinkMe povezuje korisnike sa obližnjim volonterima koji su spremni da pomognu.
+
+---
+
+## Funkcionalnosti
+
+### Za ljude koji traže pomoć
+
+* **Jednostavno kreiranje zahtjeva** – Pošaljite zahtjev uz odabir kategorije, opisa, nivoa hitnosti i lokacije.
+* **Praćenje u realnom vremenu** – Pratite status vašeg zahtjeva od trenutka slanja do završetka.
+* **Spajanje sa volonterima** – Povežite se sa verifikovanim volonterima u vašoj blizini.
+* **Poruke unutar aplikacije** – Komunicirajte direktno sa volonterima putem sigurnog četa.
+* **Sistem ocjenjivanja** – Ocijenite volontere i ostavite recenziju nakon pružene pomoći.
+
+### Za volontere
+
+* **Pametno podudaranje** – AI algoritam pomaže u pronalaženju najrelevantnijih zahtjeva na osnovu vaših vještina i lokacije.
+* **Filtriranje po kategorijama** – Pretražujte zahtjeve (trgovina, čišćenje, prevoz, IT pomoć i drugo).
+* **Interaktivna mapa** – Pregledajte zahtjeve za pomoć u vašoj okolini na mapi.
+* **Kontrola dostupnosti** – Odaberite željene kategorije pomoći tokom registracije.
+* **Izgradnja reputacije** – Izgradite volonterski profil kroz ocjene i broj uspješno završenih zahtjeva.
+
+### Osnovna funkcionalnost
+
+* **Prilagođeno korisničko iskustvo** – Čitav izgled aplikacije se transformiše u zavisnosti od toga da li tražite pomoć ili volontirate.
+* **Sigurna autentifikacija** – Registracija putem e-maila uz verifikaciju putem JMBG-a.
+* **Zaštita privatnosti** – Osjetljivi podaci su zaštićeni (hash-ovani) i sigurno pohranjeni.
+* **Obavještenja u realnom vremenu** – Instant notifikacije za nove poruke i promjene statusa zahtjeva.
+
+---
+
+## Tehnološki stek (Tech Stack)
+
+### Frontend
+
+| Tehnologija | Svrha |
+| --- | --- |
+| **React Native** | Razvoj mobilne aplikacije za iOS i Android |
+| **Expo SDK 54** | Upravljanje radnim procesom i pristup izvornim modulima |
+| **TypeScript** | Programiranje sa sigurnim tipovima podataka |
+| **React Navigation v7** | Navigacija unutar aplikacije |
+| **TanStack React Query** | Upravljanje stanjem servera i keširanje |
+| **React Native Reanimated** | Fluidne i brze animacije |
+| **React Native Maps** | Integracija interaktivne mape |
+
+### Backend
+
+| Tehnologija | Svrha |
+| --- | --- |
+| **Node.js** | Serversko okruženje |
+| **Express.js v5** | RESTful API okvir (framework) |
+| **PostgreSQL** | Relaciona baza podataka |
+| **Drizzle ORM** | Upiti ka bazi podataka i migracije |
+| **Zod** | Validacija šema i podataka |
+
+### Dizajn
+
+| Element | Izbor |
+| --- | --- |
+| **Primarna boja** | Narandžasta (#FF6B35) – toplina i pristupačnost |
+| **Sekundarna boja** | Tirkizna (#4ECDC4) – povjerenje i pouzdanost |
+| **Tipografija** | Nunito – prijateljski stil i čitljivost |
+| **Dizajn sistem** | Prilagođene komponente sa podrškom za svijetlo/tamno okruženje |
+
+---
+
+## Arhitektura
+
+```
+linkme/
+├── client/                 # React Native mobilna aplikacija
+│   ├── components/         # Višekratne UI komponente
+│   ├── screens/            # Ekrani aplikacije
+│   ├── navigation/         # Konfiguracija navigacije
+│   ├── context/            # React context (autentifikacija)
+│   ├── hooks/              # Prilagođeni React hook-ovi
+│   ├── lib/                # API klijent, pomoćni alati
+│   ├── constants/          # Teme, boje, kategorije
+│   └── types/              # TypeScript definicije
+│
+├── server/                 # Express.js backend
+│   ├── routes.ts           # Upravljanje API rutama
+│   ├── storage.ts          # Operacije sa bazom podataka
+│   └── db.ts               # Konekcija sa bazom podataka
+│
+└── shared/                 # Zajednički kod
+    └── schema.ts           # Drizzle šema baze podataka
+
+```
+
+---
+
+## Šema baze podataka
+
+| Tabela | Opis |
+| --- | --- |
+| **users** | Korisnički nalozi (uloge, kategorije, ocjene) |
+| **helpRequests** | Zahtjevi za pomoć (status, lokacija, zaduženja) |
+| **conversations** | Čet razgovori između korisnika |
+| **messages** | Pojedinačne poruke unutar razgovora |
+| **ratings** | Ocjene i recenzije korisnika |
+
+---
+
+## API Rute (Endpoints)
+
+### Autentifikacija
+
+* `POST /api/auth/register` - Kreiranje novog naloga
+* `POST /api/auth/login` - Prijava korisnika
+
+### Korisnici
+
+* `GET /api/users/:id` - Profil korisnika
+* `PATCH /api/users/:id` - Ažuriranje profila
+
+### Zahtjevi za pomoć
+
+* `GET /api/help-requests` - Lista zahtjeva (sa filterima)
+* `POST /api/help-requests` - Kreiranje novog zahtjeva
+* `PATCH /api/help-requests/:id` - Promjena statusa zahtjeva
+* `DELETE /api/help-requests/:id` - Otkazivanje zahtjeva
+
+### Poruke
+
+* `GET /api/conversations` - Lista razgovora
+* `POST /api/conversations` - Započinjanje novog razgovora
+* `GET /api/messages/:conversationId` - Pregled poruka
+* `POST /api/messages` - Slanje poruke
+
+---
+
+## Početak rada
+
+### Preduslovi
+
+* Node.js 18+
+* PostgreSQL baza podataka
+* Expo Go aplikacija (za testiranje na telefonu)
+
+### Instalacija
+
+1. **Klonirajte repozitorijum**
+```bash
+git clone <url-repozitorijuma>
+cd linkme
+
+```
+
+
+2. **Instalirajte zavisnosti**
+```bash
+npm install
+
+```
+
+
+3. **Konfigurišite varijable okruženja (.env)**
+```
+DATABASE_URL=postgresql://korisnik:lozinka@host:5432/baza
+SESSION_SECRET=vas-sigurni-string
+
+```
+
+
+4. **Inicijalizujte bazu podataka**
+```bash
+npm run db:push
+
+```
+
+
+5. **Pokrenite razvojne servere**
+```bash
+npm run server:dev    # Pokreće backend (port 5000)
+npm run expo:dev      # Pokreće mobilnu aplikaciju (port 8081)
+
+```
+
+
+
+---
+
+## Kategorije pomoći
+
+| Kategorija | Ikonica | Opis |
+| --- | --- | --- |
+| Trgovina | shopping-cart | Namirnice, apoteka, potrepštine |
+| Čišćenje | home | Čišćenje kuće, organizacija |
+| Popravke | tool | Kućne popravke, majstorski poslovi |
+| Prevoz | car | Vožnja, pomoć pri selidbi |
+| IT pomoć | smartphone | Tehnička podrška, pomoć sa uređajima |
+| Druženje | users | Posjete, razgovor, društvo |
+| Bašta | sun | Baštovanstvo, uređenje dvorišta |
+| Ljubimci | heart | Čuvanje i šetanje ljubimaca |
+| Administracija | file-text | Papiri, popunjavanje formulara |
+| Ostalo | more-horizontal | Razne druge vrste pomoći |
+
+---
+
+## Sigurnosne mjere
+
+* **Hash-ovanje lozinki** – SHA-256 enkripcija.
+* **Verifikacija identiteta** – Hash-ovanje JMBG-a radi zaštite privatnosti.
+* **Sigurne sesije** – Upravljanje sesijama na strani servera.
+* **Validacija podataka** – Zod šema validacija za sve unose.
+* **CORS zaštita** – Konfigurisana za sigurne cross-origin zahtjeve.
+
+---
+
+## Doprinos projektu
+
+Doprinosi su dobrodošli! Slobodno otvorite "issue" ili pošaljite "pull request".
+
+---
+
+## Licenca
+
+Ovaj projekat je otvorenog koda i dostupan je pod **MIT licencom**.
+
+---
+
+**Izrađeno s ljubavlju za jače zajednice**
