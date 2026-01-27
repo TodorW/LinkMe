@@ -5,6 +5,7 @@ import { registerRoutes } from "./routes";
 import * as fs from "fs";
 import * as path from "path";
 
+
 const app = express();
 const log = console.log;
 
