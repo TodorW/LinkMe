@@ -187,45 +187,13 @@ npm run expo:dev
 
 ---
 
-## 🤝 Doprinos projektu
-
-LinkMe je projekt otvorenog koda i veselimo se vašem doprinosu!
-
-### Kako doprinijeti:
-1. Forkujte repozitorijum
-2. Kreirajte feature granu (`git checkout -b feature/novo`)
-3. Komitujte promjene (`git commit -m 'Dodajem novu funkcionalnost'`)
-4. Pushujte granu (`git push origin feature/novo`)
-5. Otvorite Pull Request
-
-### Pronađite zadatke za početnike:
-- [ ] Poboljšanje dokumentacije
-- [ ] Dodavanje novih ikonica
-- [ ] Prijevod na dodatne jezike
-- [ ] Optimizacija performansi
-
----
-
-## 📞 Podrška i kontakt
-
-**Za tehničku podršku:**  
-📧 support@linkme.me  
-🐛 [GitHub Issues](https://github.com/yourusername/linkme/issues)
-
-**Za saradnju sa zajednicom:**  
-📧 community@linkme.me
-
-**Za medijske upite:**  
-📧 press@linkme.me
-
----
 
 ## 📄 Licenca
 
 Distribuirano pod MIT licencom. Pogledajte [LICENSE](LICENSE) fajl za detalje.
 
 ```
-Copyright 2024 LinkMe Tim
+Copyright 2026 LinkMe Tim
 
 Dozvoljeno je besplatno korištenje, kopiranje, modifikovanje, spajanje, objavljivanje,
 distribuiranje, podlicenciranje i/ili prodaja kopija Softvera, pod uslovom da se
@@ -253,4 +221,4 @@ Vaša dobra djela grade bolju zajednicu za sve nas.
 
 ---
 
-⭐ **Ako vam se dopada ovaj projekt, dajte mu zvezdu na GitHubu!** ⭐
+⭐ **Ako vam se dopada ovaj projekt, dajte mu zvjezdu na GitHubu!** ⭐
